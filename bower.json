@@ -1,0 +1,20 @@
+{
+  "name": "BeMEAN-Training",
+  "version": "0.0.0",
+  "authors": [
+    "Esteban Alvarado <ealvarado@searchtechnologies.com>"
+  ],
+  "description": "Be MEAN Training 2016",
+  "keywords": [
+    "MEAN"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "angular": "~1.4.5",
+    "angular-animate": "~1.4.5",
+    "angular-bootstrap": "~0.13.4",
+    "angular-cookies": "~1.4.5",
+    "angular-resource": "~1.4.5",
+    "bootstrap": "~3.3.5"
+  }
+}
