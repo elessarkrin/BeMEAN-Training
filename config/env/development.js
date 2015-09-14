@@ -6,7 +6,7 @@
 module.exports = {
     db: 'mongodb://localhost/mean-dev',
     app: {
-        title: 'MEAN - Development Environment',
+        title: 'Be MEAN - Development Environment',
         description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
         keywords: 'MongoDB, Express, AngularJS, Node.js'
     },
@@ -46,11 +46,7 @@ module.exports = {
             'public/config.js',
             'public/app.js',
             'public/modules/*/*.js',
-            'public/modules/*/*[!tests]*/*.js'
-        ],
-        tests: [
-            'public/lib/angular-mocks/angular-mocks.js',
-            'public/modules/*/tests/*.js'
+            'public/modules/**/*.js'
         ]
     }
 };

@@ -45,6 +45,14 @@ html, body {
     color: #EFECCA;
 }
 
+.nav > li > a:hover, .nav > li > a:focus{
+    background-color: #046380;
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background-color: #046380;
+}
+
 .navbar a, .navbar a:hover, .navbar a:focus {
     color: #EFECCA;
     text-decoration: none;
