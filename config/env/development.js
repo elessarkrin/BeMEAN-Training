@@ -27,8 +27,15 @@ module.exports = {
                 'public/lib/angular-animate/angular-animate.js',
                 //'public/lib/angular-touch/angular-touch.js',
                 //'public/lib/angular-sanitize/angular-sanitize.js',
-                //'public/lib/angular-ui-router/release/angular-ui-router.js',
-                //'public/lib/angular-ui-utils/ui-utils.js',
+                'public/lib/angular-ui-router/release/angular-ui-router.js',
+                'public/lib/angular-ui-utils/index.js',
+                'public/lib/angular-ui-event/dist/event.js',
+                'public/lib/angular-ui-indeterminate/dist/indeterminate.js',
+                'public/lib/angular-ui-mask/dist/mask.js',
+                'public/lib/angular-ui-scroll/dist/ui-scroll.js',
+                'public/lib/angular-ui-scrollpoint/dist/scrollpoint.js',
+                'public/lib/angular-ui-uploader/dist/uploader.js',
+                'public/lib/angular-ui-validate/dist/validate.js',
                 'public/lib/angular-bootstrap/ui-bootstrap-tpls.js'
             ]
         },
@@ -37,7 +44,7 @@ module.exports = {
         ],
         js: [
             'public/config.js',
-            'public/application.js',
+            'public/app.js',
             'public/modules/*/*.js',
             'public/modules/*/*[!tests]*/*.js'
         ],

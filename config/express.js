@@ -6,10 +6,12 @@ var http = require('http'),
     session = require('express-session'),
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
+    cookieParser = require('cookie-parser'),
     config = require('./config'),
     mongoStore = require('connect-mongo')({
         session: session
     }),
+    consolidate = require('consolidate'),
     chalk = require('chalk'),
     path = require('path');
 
@@ -38,9 +40,7 @@ module.exports = function (db) {
     app.set('showStackError', true);
 
     // Set swig as the template engine
-    app.engine('server.view.html', function () {
-        return config.templateEngine
-    });
+    app.engine('server.view.html', consolidate[config.templateEngine]);
 
     // Set views path and view engine
     app.set('view engine', 'server.view.html');
@@ -57,43 +57,45 @@ module.exports = function (db) {
         app.locals.cache = 'memory';
     }
 
+    // Request body parsing middleware should be above methodOverride
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
     app.use(bodyParser.json());
-    app.disable('x-powered-by');
 
-    // Setting the app router and static folder
-    app.use(express.static(path.resolve('./public')));
+    // CookieParser should be above session
+    app.use(cookieParser());
 
-    // Express MongoDB session storage
+    db.connection.on("connect",function(err) {
+        // Express MongoDB session storage
     app.use(session({
         saveUninitialized: true,
         resave: true,
         secret: config.sessionSecret,
         store: new mongoStore({
-            db: db.connection.db,
+            db:  db.connection.db,
             collection: config.sessionCollection
         })
     }));
+    });
+
+    app.disable('x-powered-by');
+
+    // Setting the app router and static folder
+    app.use(express.static(path.resolve('./public')));
 
     // Globbing routing files
     config.getGlobbedFiles('./app/routes/**/*.js').forEach(function (routePath) {
         require(path.resolve(routePath))(app);
     });
 
-    // Assume 404 since no middleware responded
-    app.use(function (req, res) {
-        res.status(404).render('404', {
-            url: req.originalUrl,
-            error: 'Not Found'
-        });
-    });
-
-    // Assume 'not found' in the error msgs is a 404.
-    app.use(function (err, req, res, next) {
+    // Assume 'not found' in the error msgs is a 404. this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
+    app.use(function(err, req, res, next) {
         // If the error object doesn't exists
         if (!err) return next();
 
         // Log it
-        console.error(chalk.red(err.stack));
+        console.error(err.stack);
 
         // Error page
         res.status(500).render('500', {
@@ -101,4 +103,14 @@ module.exports = function (db) {
         });
     });
 
+    // Assume 404 since no middleware responded
+    app.use(function(req, res) {
+        res.status(404).render('404', {
+            url: req.originalUrl,
+            error: 'Not Found'
+        });
+    });
+
+    // Return Express server instance
+    return app;
 };
